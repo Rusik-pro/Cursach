@@ -19,7 +19,7 @@ const recipe: Recipe = {
 describe('RecipeCard', () => {
   it('renders title and meta', () => {
     render(
-      <MemoryRouter>
+      <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <RecipeCard recipe={recipe} />
       </MemoryRouter>
     );

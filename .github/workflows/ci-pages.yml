@@ -33,7 +33,10 @@ jobs:
         run: npx msw init ./public --no-save
 
       - name: Test
-        run: npm test
+        env:
+          CI: true
+          NODE_OPTIONS: --max-old-space-size=4096
+        run: npm test -- --runInBand --watchAll=false
 
       # Сайт проекта: https://USER.github.io/REPO/ → base /REPO/
       # Сайт пользователя: репозиторий USER.github.io → корень https://USER.github.io/ → base /
