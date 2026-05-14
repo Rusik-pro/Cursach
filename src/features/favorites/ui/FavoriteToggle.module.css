@@ -1,0 +1,24 @@
+.favorite {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.favorite__button {
+  border: 1px solid var(--color-surface-2);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+.favorite__button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.favorite__error {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+}

@@ -1,0 +1,29 @@
+.notFound {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.notFound__title {
+  margin: 0;
+  font-size: 4rem;
+}
+
+.notFound__text {
+  margin: 0.5rem 0 1rem;
+  color: var(--color-muted);
+}
+
+.notFound__link {
+  display: inline-flex;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-2);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.notFound__link:hover {
+  text-decoration: none;
+  border-color: var(--color-accent);
+}

@@ -1,0 +1,112 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell__header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(15, 20, 25, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-surface-2);
+}
+
+.shell__brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.shell__brand:hover {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.shell__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  flex: 1;
+  justify-content: center;
+}
+
+.shell__navLink {
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.shell__navLink:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.shell__navLink:global(.active) {
+  color: var(--color-text);
+  background: var(--color-surface-2);
+}
+
+.shell__auth {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.shell__user {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shell__logout {
+  border: 1px solid var(--color-surface-2);
+  background: transparent;
+  color: var(--color-text);
+  border-radius: 8px;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+.shell__main {
+  flex: 1;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.shell__page {
+  animation: pageFade 0.35s ease;
+}
+
+@keyframes pageFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 900px) {
+  .shell__header {
+    padding: 0.85rem 1.5rem;
+  }
+
+  .shell__main {
+    padding: 1.5rem;
+  }
+}

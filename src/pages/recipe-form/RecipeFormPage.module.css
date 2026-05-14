@@ -1,0 +1,83 @@
+.form {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form__title {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.form__grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: 1fr;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.form__field--wide {
+  grid-column: 1 / -1;
+}
+
+.form__field input,
+.form__field select,
+.form__field textarea {
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-surface-2);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.form__preview {
+  margin-top: 0.5rem;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-surface-2);
+}
+
+.form__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.form__actions button {
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-2));
+  color: #1a0f08;
+}
+
+.form__actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.form__error {
+  margin: 0;
+  color: #ff6b6b;
+}
+
+.form__state {
+  color: var(--color-muted);
+}
+
+@media (min-width: 720px) {
+  .form__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

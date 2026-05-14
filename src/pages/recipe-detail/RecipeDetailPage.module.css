@@ -1,0 +1,135 @@
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.detail__header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail__crumb {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.detail__title {
+  margin: 0.25rem 0;
+  font-size: 2rem;
+}
+
+.detail__meta {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.detail__edit {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-2);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.detail__edit:hover {
+  text-decoration: none;
+  border-color: var(--color-accent);
+}
+
+.detail__delete {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid #ff6b6b;
+  background: transparent;
+  color: #ff6b6b;
+  cursor: pointer;
+}
+
+.detail__layout {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.detail__media {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-2);
+}
+
+.detail__image {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+}
+
+.detail__placeholder {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.detail__section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+.detail__list,
+.detail__steps {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--color-text);
+}
+
+.detail__steps li + li,
+.detail__list li + li {
+  margin-top: 0.35rem;
+}
+
+.detail__state,
+.detail__error {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.detail__error {
+  color: #ff6b6b;
+}
+
+@media (min-width: 900px) {
+  .detail__header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .detail__layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-areas:
+      'media ingredients'
+      'media steps';
+  }
+
+  .detail__media {
+    grid-area: media;
+  }
+
+  .detail__section:first-of-type {
+    grid-area: ingredients;
+  }
+
+  .detail__section:last-of-type {
+    grid-area: steps;
+  }
+}
