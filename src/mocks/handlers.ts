@@ -13,11 +13,6 @@ import {
   id,
 } from '@/mocks/db';
 
-function apiPath(suffix: string): string {
-  const base = getApiBase();
-  return suffix.startsWith('/') ? `${base}${suffix}` : `${base}/${suffix}`;
-}
-
 function unauthorized() {
   return HttpResponse.json({ message: 'Требуется авторизация' }, { status: 401 });
 }
@@ -42,7 +37,14 @@ function filterRecipes(params: URLSearchParams): Recipe[] {
   });
 }
 
-export const handlers = [
+/** Создаёт обработчики с актуальным BASE_URL (важно для GitHub Pages /Cursach/api). */
+export function createHandlers() {
+  const apiPath = (suffix: string): string => {
+    const base = getApiBase();
+    return suffix.startsWith('/') ? `${base}${suffix}` : `${base}/${suffix}`;
+  };
+
+  return [
   http.post(apiPath('/auth/register'), async ({ request }) => {
     const body = (await request.json()) as {
       email?: string;
@@ -196,4 +198,7 @@ export const handlers = [
     ensureFavorites(userId).delete(String(params.recipeId));
     return new HttpResponse(null, { status: 204 });
   }),
-];
+  ];
+}
+
+export const handlers = createHandlers();

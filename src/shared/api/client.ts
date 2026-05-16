@@ -1,5 +1,6 @@
 import axios, { type AxiosError } from 'axios';
 import { getApiBase } from '@/shared/config/apiBase';
+import { whenMswReady } from '@/mocks/mswReady';
 
 const baseURL = getApiBase();
 
@@ -23,7 +24,10 @@ export function setStoredToken(token: string | null): void {
   }
 }
 
-apiClient.interceptors.request.use((config) => {
+apiClient.interceptors.request.use(async (config) => {
+  if (process.env.VITE_ENABLE_MSW === 'true') {
+    await whenMswReady;
+  }
   const token = getStoredToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
