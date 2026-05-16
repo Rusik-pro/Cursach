@@ -14,8 +14,8 @@ describe('getApiBase', () => {
   });
 
   it('prefixes API with repository base path (GitHub Pages)', () => {
-    process.env.BASE_URL = '/recipe-spa/';
+    process.env.BASE_URL = '/Cursach/';
     process.env.VITE_API_URL = '/api';
-    expect(getApiBase()).toBe('/recipe-spa/api');
+    expect(getApiBase()).toBe('/Cursach/api');
   });
 });

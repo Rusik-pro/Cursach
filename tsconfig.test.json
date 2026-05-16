@@ -10,6 +10,7 @@
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
     "src/test/**/*",
+    "src/test/node-env.d.ts",
     "src/global-env.d.ts"
   ]
 }
