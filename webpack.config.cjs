@@ -92,12 +92,13 @@ module.exports = (_env, argv) => {
       new webpack.EnvironmentPlugin({
         VITE_API_URL: '/api',
         VITE_ENABLE_MSW: 'false',
-        VITE_BASE_PATH: '/',
+        VITE_BASE_PATH: publicPath,
         VITE_THEMEALDB_BASE_URL: '',
         VITE_THEMEALDB_REFRESH_MS: '',
       }),
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, 'index.html'),
+        templateParameters: { BASE_URL: publicPath },
         inject: 'body',
         minify: isProd
           ? {

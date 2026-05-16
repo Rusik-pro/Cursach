@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import type { Recipe, RecipePayload, User } from '@/entities/recipe/model/types';
+import { getApiBase } from '@/shared/config/apiBase';
 import {
   ensureFavorites,
   favoritesByUser,
@@ -11,6 +12,8 @@ import {
   users,
   id,
 } from '@/mocks/db';
+
+const API = getApiBase();
 
 function unauthorized() {
   return HttpResponse.json({ message: 'Требуется авторизация' }, { status: 401 });
@@ -37,7 +40,7 @@ function filterRecipes(params: URLSearchParams): Recipe[] {
 }
 
 export const handlers = [
-  http.post('/api/auth/register', async ({ request }) => {
+  http.post(`${API}/auth/register`, async ({ request }) => {
     const body = (await request.json()) as {
       email?: string;
       password?: string;
@@ -56,7 +59,7 @@ export const handlers = [
     return HttpResponse.json({ token, user });
   }),
 
-  http.post('/api/auth/login', async ({ request }) => {
+  http.post(`${API}/auth/login`, async ({ request }) => {
     const body = (await request.json()) as { email?: string; password?: string };
     if (!body.email || !body.password) {
       return HttpResponse.json({ message: 'Некорректные данные' }, { status: 400 });
@@ -69,19 +72,19 @@ export const handlers = [
     return HttpResponse.json({ token: issueToken(user.id), user });
   }),
 
-  http.get('/api/auth/me', ({ request }) => {
+  http.get(`${API}/auth/me`, ({ request }) => {
     const userId = readUserIdFromRequest(request.headers.get('Authorization'));
     const user = userId ? getUserById(userId) : undefined;
     if (!user) return unauthorized();
     return HttpResponse.json(user);
   }),
 
-  http.get('/api/recipes', ({ request }) => {
+  http.get(`${API}/recipes`, ({ request }) => {
     const url = new URL(request.url);
     return HttpResponse.json(filterRecipes(url.searchParams));
   }),
 
-  http.get('/api/recipes/latest', ({ request }) => {
+  http.get(`${API}/recipes/latest`, ({ request }) => {
     const url = new URL(request.url);
     const limit = Number(url.searchParams.get('limit') ?? '6');
     const sorted = [...recipes].sort(
@@ -90,7 +93,7 @@ export const handlers = [
     return HttpResponse.json(sorted.slice(0, Math.max(1, Math.min(limit, 24))));
   }),
 
-  http.get('/api/recipes/:id', ({ params }) => {
+  http.get(`${API}/recipes/:id`, ({ params }) => {
     const recipe = recipes.find((r) => r.id === params.id);
     if (!recipe) {
       return HttpResponse.json({ message: 'Рецепт не найден' }, { status: 404 });
@@ -98,7 +101,7 @@ export const handlers = [
     return HttpResponse.json(recipe);
   }),
 
-  http.post('/api/recipes', async ({ request }) => {
+  http.post(`${API}/recipes`, async ({ request }) => {
     const userId = readUserIdFromRequest(request.headers.get('Authorization'));
     const user = userId ? getUserById(userId) : undefined;
     if (!user) return unauthorized();
@@ -122,7 +125,7 @@ export const handlers = [
     return HttpResponse.json(recipe, { status: 201 });
   }),
 
-  http.patch('/api/recipes/:id', async ({ params, request }) => {
+  http.patch(`${API}/recipes/:id`, async ({ params, request }) => {
     const userId = readUserIdFromRequest(request.headers.get('Authorization'));
     if (!userId) return unauthorized();
     const idx = recipes.findIndex((r) => r.id === params.id);
@@ -148,7 +151,7 @@ export const handlers = [
     return HttpResponse.json(updated);
   }),
 
-  http.delete('/api/recipes/:id', ({ params, request }) => {
+  http.delete(`${API}/recipes/:id`, ({ params, request }) => {
     const userId = readUserIdFromRequest(request.headers.get('Authorization'));
     if (!userId) return unauthorized();
     const idx = recipes.findIndex((r) => r.id === params.id);
@@ -165,7 +168,7 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 });
   }),
 
-  http.get('/api/favorites', ({ request }) => {
+  http.get(`${API}/favorites`, ({ request }) => {
     const userId = readUserIdFromRequest(request.headers.get('Authorization'));
     if (!userId) return unauthorized();
     const fav = ensureFavorites(userId);
@@ -173,7 +176,7 @@ export const handlers = [
     return HttpResponse.json(list);
   }),
 
-  http.post('/api/favorites/:recipeId', ({ params, request }) => {
+  http.post(`${API}/favorites/:recipeId`, ({ params, request }) => {
     const userId = readUserIdFromRequest(request.headers.get('Authorization'));
     if (!userId) return unauthorized();
     const exists = recipes.some((r) => r.id === params.recipeId);
@@ -184,7 +187,7 @@ export const handlers = [
     return new HttpResponse(null, { status: 204 });
   }),
 
-  http.delete('/api/favorites/:recipeId', ({ params, request }) => {
+  http.delete(`${API}/favorites/:recipeId`, ({ params, request }) => {
     const userId = readUserIdFromRequest(request.headers.get('Authorization'));
     if (!userId) return unauthorized();
     ensureFavorites(userId).delete(String(params.recipeId));

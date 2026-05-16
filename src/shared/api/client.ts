@@ -1,6 +1,7 @@
 import axios, { type AxiosError } from 'axios';
+import { getApiBase } from '@/shared/config/apiBase';
 
-const baseURL = process.env.VITE_API_URL || '/api';
+const baseURL = getApiBase();
 
 export const apiClient = axios.create({
   baseURL,

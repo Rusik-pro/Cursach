@@ -41,8 +41,13 @@ const Fallback = memo(function Fallback() {
   return <div className="app-shell__loading">Загрузка модуля…</div>;
 });
 
-const basename =
-  process.env.BASE_URL.replace(/\/$/, '') === '' ? undefined : process.env.BASE_URL.replace(/\/$/, '');
+function getRouterBasename(): string | undefined {
+  const base = process.env.BASE_URL ?? '/';
+  const trimmed = base.replace(/\/$/, '');
+  return trimmed === '' ? undefined : trimmed;
+}
+
+const basename = getRouterBasename();
 
 export function App(): ReactElement {
   return (

@@ -5,16 +5,28 @@ import { App } from './app/App';
 
 async function bootstrap(): Promise<void> {
   if (process.env.VITE_ENABLE_MSW === 'true') {
-    const { worker } = await import('./mocks/browser');
-    await worker.start({
-      serviceWorker: {
-        url: `${process.env.BASE_URL}mockServiceWorker.js`,
-      },
-      onUnhandledRequest: 'bypass',
-    });
+    try {
+      const { worker } = await import('./mocks/browser');
+      const baseUrl = process.env.BASE_URL || '/';
+      await worker.start({
+        serviceWorker: {
+          url: `${baseUrl}mockServiceWorker.js`,
+          options: { scope: baseUrl },
+        },
+        onUnhandledRequest: 'bypass',
+      });
+    } catch (err) {
+      console.warn('[recipe-spa] MSW не запустился — интерфейс откроется, API может не работать:', err);
+    }
   }
 
-  createRoot(document.getElementById('root')!).render(
+  const root = document.getElementById('root');
+  if (!root) {
+    console.error('[recipe-spa] Элемент #root не найден');
+    return;
+  }
+
+  createRoot(root).render(
     <StrictMode>
       <App />
     </StrictMode>
