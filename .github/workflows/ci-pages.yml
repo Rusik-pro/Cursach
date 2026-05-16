@@ -47,6 +47,11 @@ jobs:
           VITE_API_URL: /api
         run: npm run build
 
+      - name: Verify dist paths for GitHub Pages
+        env:
+          VITE_BASE_PATH: ${{ endsWith(github.event.repository.name, '.github.io') && '/' || format('/{0}/', github.event.repository.name) }}
+        run: node scripts/verify-dist.mjs
+
       - name: Upload Pages artifact
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-pages-artifact@v3

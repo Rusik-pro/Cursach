@@ -1,26 +1,21 @@
+import { getApiBase } from './apiBase';
+
 describe('getApiBase', () => {
-  const env = process.env;
+  const savedEnv = { ...process.env };
 
-  beforeEach(() => {
-    jest.resetModules();
-    process.env = { ...env };
+  afterEach(() => {
+    process.env = { ...savedEnv };
   });
 
-  afterAll(() => {
-    process.env = env;
-  });
-
-  it('returns /api at site root', async () => {
+  it('returns /api at site root', () => {
     process.env.BASE_URL = '/';
     process.env.VITE_API_URL = '/api';
-    const { getApiBase } = await import('./apiBase');
     expect(getApiBase()).toBe('/api');
   });
 
-  it('prefixes API with repository base path (GitHub Pages)', async () => {
+  it('prefixes API with repository base path (GitHub Pages)', () => {
     process.env.BASE_URL = '/recipe-spa/';
     process.env.VITE_API_URL = '/api';
-    const { getApiBase } = await import('./apiBase');
     expect(getApiBase()).toBe('/recipe-spa/api');
   });
 });
